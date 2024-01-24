@@ -1,7 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import userrouter from './routers/userrouter.js'
 const app = express();
+
 dotenv.config({path: './config.env'});
 
 const port = process.env.Port;
@@ -14,6 +16,11 @@ mongoose.connect(Database).then(()=>{
 })
 
 
-app.listen((port),(request,response)=>{
+app.listen((port),()=>{
 console.log(`App is listening at ${port}`)
 })
+
+//Both are same
+app.use(userrouter);
+
+// app.use('/server/user',userrouter);
