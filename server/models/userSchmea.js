@@ -13,7 +13,6 @@ const userSchmea = mongosse.Schema({
     password:{
         type: String,
         required: true,
-        unique: true
     },
 },{timestamps: true})
 
