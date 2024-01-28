@@ -6,7 +6,7 @@ const hashPassword = bcrypt.hashSync(password,10);
 const newuser = new User({username,email,password:hashPassword});
  try {
     await newuser.save()
-    res.status(201).json("USer Created successfully")
+    res.status(201).json("User Created successfully")
  } catch (error) {
   next(error);
  }
