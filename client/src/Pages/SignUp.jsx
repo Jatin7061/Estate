@@ -52,9 +52,10 @@ const SignUp = () => {
         {loading ? 'Loading' : 'SignUp'}</button>
     </form>
     <div className='flex gap-2 mt-5'>
-      <p>Have an account?</p>
+      <p>Don't Have an account?</p>
       <Link to="/sign-in"><span className='text-blue-600'>Sign in</span></Link>
     </div>
+    {error && <p className='text-red-500 mt-5'>{error}</p>}
   </div>
   )
 }
