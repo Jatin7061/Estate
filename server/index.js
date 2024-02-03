@@ -32,8 +32,10 @@ console.log(`App is listening at ${port}`)
 })
 
 //Both are same
-app.use(userrouter);
-app.use(adminrouter);
+app.use('/api/user',userrouter);
+app.use('/api/auth', adminrouter);
+// app.use(userrouter);
+// app.use(adminrouter);
 
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
