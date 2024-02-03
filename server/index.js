@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import userrouter from './routers/userrouter.js'
 import adminrouter from './routers/adminrouter.js'
 
@@ -13,9 +14,11 @@ const port = process.env.Port;
 const Database = process.env.Mongo;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin: '*'
 }));
+
 
 mongoose.connect(Database).then(()=>{
     console.log("Database is connected")
