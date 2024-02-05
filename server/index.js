@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userrouter from './routers/userrouter.js'
 import adminrouter from './routers/adminrouter.js'
+import listingrouter from './routers/listingrouter.js'
 
 const app = express();
 
@@ -34,6 +35,7 @@ console.log(`App is listening at ${port}`)
 //Both are same
 app.use('/api/user',userrouter);
 app.use('/api/auth', adminrouter);
+app.use('/api/listing',listingrouter)
 // app.use(userrouter);
 // app.use(adminrouter);
 
