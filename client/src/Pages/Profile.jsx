@@ -14,6 +14,8 @@ const Profile = () => {
   const [fileUploaderror,setfileUploaderror]=useState(false);
   const [formData,setformData] = useState({})
   const [updateUser,setupdateUser] = useState(false);
+  const [UserListing,setUserListing] = useState([])
+  const [showListingError,setshowListingError] = useState(false)
   const fileRef = useRef("");
   const {currentUser,loading,error} = useSelector((state)=>state.user)
   console.log(formData)
@@ -103,10 +105,24 @@ const Profile = () => {
       dispatch(signoutUserFailure(error.message));
     }
    }
+   const handleShowListings =async()=>{
+    try {
+      setshowListingError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`)
+      const data = await res.json();
+      if(data.success === false){
+        setshowListingError(true)
+        return
+      }
+      setUserListing(data);
+    } catch (error) {
+      setshowListingError(true)
+    }
+   }
    console.log(formData)
   return (
     <div className='p-3 max-w-lg mx-auto '>
-    <h1 className='text-3xl text-center font-semibold my-7'>Profile</h1>
+    <h1 className='text-3xl text-center font-semibold my-4'>Profile</h1>
     <form  className='flex flex-col'>
       <input type="file" ref={fileRef} onChange={(e)=>setfile(e.target.files[0])} hidden accept='image/*' />
       <img onClick={()=>fileRef.current.click()} className='rounded-full h-24 w-24 object-cover cursor-pointer self-center' src={formData.avatar || currentUser.avatar} alt='Profile'/>
@@ -134,8 +150,37 @@ const Profile = () => {
       <span onClick={handleDelete} className='text-red-800 cursor-pointer'>Delete Account </span>
       <span onClick={handleSignOut} className='text-red-800 cursor-pointer'>Sign Out</span>
     </div> 
-    <p className='text-red-700 mt-5'>{error ?error:""}</p>
-    <p className='text-green-700 mt-5'>{updateUser ?"User Updated Succesfully":""}</p>
+    <p className='text-red-700 mt-4'>{error ?error:""}</p>
+    <p className='text-green-700 mt-4'>{updateUser ?"User Updated Succesfully":""}</p>
+    <button onClick={handleShowListings} className='text-green-700 w-full'>Show Listing</button>
+    <p className='text-red-700 mt-4'>{showListingError ? "Error Showing List":""}</p>
+    {UserListing && UserListing.length > 0 && 
+    <div className='flex flex-col gap-4'>
+      <h1 className='text-3xl text-center my-7'>Your Listings</h1>
+    {UserListing.map((listing)=> 
+   
+    <div key={listing._id} className='border rounded-lg p-3 flex justify-between items-center '>
+    <Link to={`/listing/${listing._id}`}>
+    <img src={listing.imageUrls[0]} className='h-16 w-16 object-contain' />
+    </Link>  
+    <Link  className='text-slate-700 font-semibold flex-1 hover:underline' to={`/listing/${listing._id}`}> 
+     <p>{listing.name}</p>
+    </Link>
+    <div className='flex flex-col'>
+      <button className='text-red-700'>Delete</button>
+      <button className='text-green-700'>Edit</button>
+
+    </div>
+    </div>
+
+    
+
+
+    
+    )
+    }
+    </div>
+}
     </div>
   )
 }
