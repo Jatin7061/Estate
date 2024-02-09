@@ -1,4 +1,5 @@
 import User from "../models/userSchmea.js";
+import Listing from "../models/listingSchmea.js"
 import { errorhandler } from "../utils/error.js"
 import bcrypt from "bcrypt";
 
@@ -53,4 +54,17 @@ export const UpdateUser = async (req, res, next) => {
     next(error)
    }
 
+ }
+ export const UserListings = async(req,res,next)=>{
+  if(req.user.id === req.params.id){
+    try {
+     const listings = await Listing.find({ userRef: req.params.id})
+     res.status(200).json(listings);
+    } catch (error) {
+     next(error) 
+    }
+  }
+  else{
+    return next(errorhandler(401, 'You can see only your own listings!'));
+  }
  }
