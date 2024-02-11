@@ -1,10 +1,11 @@
 import express from 'express';
-import { createListing, deleteListing } from '../controllers/listingcontroller.js';
+import { createListing, deleteListing, updateListing } from '../controllers/listingcontroller.js';
 import { verifyToken } from '../utils/verfiyUser.js';
 const router = express.Router();
 
 router.post("/create",verifyToken,createListing);
 router.delete("/delete/:id",verifyToken,deleteListing)
+router.post("/update/:id",verifyToken,updateListing)
 
 
 export default router;
